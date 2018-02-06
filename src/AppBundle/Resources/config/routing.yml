@@ -1,0 +1,8 @@
+articles_all:
+  path:     /articles
+  defaults: { _controller:AppBundle:Article:getAllArticles }
+article_one:
+  path:     /article/{id}
+  defaults: { _controller:AppBundle:Article:getArticle }
+  requirements:
+    id: \d+
