@@ -1,0 +1,31 @@
+{% extends '@App/layout.html.twig' %}
+
+{% block title_page %}Test App{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 bordure">
+                <table class="table table-bordered">
+                    <thead>
+                    <th>Titre</th>
+                    <th>Est publié</th>
+                    <th>Date de publication</th>
+                    <th>Menu</th>
+                    </thead>
+                    <tbody>
+                    {% for article in articles %}
+                        <tr>
+                            <td><a href="{{ path('article_one', {'id': article.id, 'menu': article.menu.title,
+                                'slug':article.title|escape|replace(" ","_")}) }}">{{ article.title }}</a></td>
+                            <td>{{ article.published }}</td>
+                            <td>{{ article.publishedAt|date("m/d/Y") }}</td>
+                            <td>{{ article.menu.title }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

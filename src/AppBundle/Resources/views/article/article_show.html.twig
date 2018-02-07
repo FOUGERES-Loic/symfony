@@ -1,0 +1,22 @@
+{% extends '@App/layout.html.twig' %}
+
+{% block title_page %}Test App{% endblock %}
+{% block menu %}{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="media">
+                <div class="media-left">
+                    <a href="#">
+                        <img src="/images/{{ article.photo }}" alt="{{ article.photo }}" class="media-object">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h3 class="media-heading">{{ article.title }}</h3>
+                    {{ article.content|markdown }}<br><br>
+                    <p>Publié {{ article.publishedAt|diff }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

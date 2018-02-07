@@ -2,30 +2,39 @@
 
 namespace AppBundle\Controller;
 
-
-
-use AppBundle\Entity\Article;
+use AppBundle\Services\ArticleService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Bundle\MarkdownBundle\MarkdownParserInterface;
 
 class ArticleController extends Controller
 {
+    protected $service;
+    protected $parser;
+
+    /**
+     * ArticleController constructor.
+     * @param $articles
+     */
+    public function __construct(ArticleService $articleService, MarkdownParserInterface $parser)
+    {
+        $this->service = $articleService;
+        $this->parser = $parser;
+
+    }
+
     public function getAllArticlesAction()
     {
-        $article = new Article();
-
-        $articles = [$article];
         return $this->render(
-            'article/articles_list.html.twig',
-            array('articles' => $articles)
+            '@App/article/articles_list.html.twig',
+            array('articles' => $this->service->getArticles())
         );
     }
 
     public function getArticleAction($id)
     {
-        $article = new Article();
         return $this->render(
-            'article/article_show.html.twig',
-            array('article' => $article)
+            '@App/article/article_show.html.twig',
+            array('article' => $this->service->getArticle($id))
         );
     }
 }

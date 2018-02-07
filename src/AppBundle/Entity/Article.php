@@ -17,8 +17,8 @@ class Article
     protected $published;
     /** @var \DateTime */
     protected $publishedAt;
-    /** @var Menu[] */
-    protected $menus;
+    /** @var Menu */
+    protected $menu;
 
     /**
      * @return int
@@ -129,20 +129,20 @@ class Article
     }
 
     /**
-     * @return Menu[]
+     * @return Menu
      */
-    public function getMenus()
+    public function getMenu()
     {
-        return $this->menus;
+        return $this->menu;
     }
 
     /**
-     * @param Menu[] $menus
+     * @param Menu $menu
      * @return Article
      */
-    public function setMenus($menus)
+    public function setMenu($menu)
     {
-        $this->menus = $menus;
+        $this->menu = $menu;
         return $this;
     }
 
