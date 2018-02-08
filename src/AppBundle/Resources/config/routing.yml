@@ -9,3 +9,6 @@ article_one:
   defaults: { _controller:AppBundle:Article:getArticle }
   requirements:
     id: \d+
+articles_new:
+  path:     /articles/new
+  defaults: { _controller:AppBundle:Article:newArticle }

@@ -18,7 +18,7 @@
                         <tr>
                             <td><a href="{{ path('article_one', {'id': article.id, 'menu': article.menu.title,
                                 'slug':article.title|escape|replace(" ","_")}) }}">{{ article.title }}</a></td>
-                            <td>{{ article.published }}</td>
+                            <td>{{ article.published|published }}</td>
                             <td>{{ article.publishedAt|date("m/d/Y") }}</td>
                             <td>{{ article.menu.title }}</td>
                         </tr>

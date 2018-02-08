@@ -16,6 +16,7 @@ class AppExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFilter('diff', array($this, 'diffFilter')),
+            new \Twig_SimpleFilter('published', array($this, 'isPublished'), ['is_safe' => ['html']]),
         );
     }
 
@@ -38,5 +39,17 @@ class AppExtension extends \Twig_Extension
             $string = 'il y a '.$interval->h.'h, '.$interval->i.'min, '.$interval->s.'s';
         }
         return $string;
+    }
+
+    /**
+     * @param int $publishedValue (0|1)
+     */
+    public function isPublished($publishedValue)
+    {
+        if ($publishedValue) {
+            return "<span class='label label-success'>oui</span>";
+        } else {
+            return "<span class='label label-default'>non</span>";
+        }
     }
 }
