@@ -2,7 +2,7 @@ default:
   path:     /
   defaults: { _controller:AppBundle:Article:getAllArticles }
 articles_all:
-  path:     /articles
+  path:     /articles/
   defaults: { _controller:AppBundle:Article:getAllArticles }
 article_one:
   path:     /article/{menu}/{id}_{slug}.html
@@ -10,5 +10,15 @@ article_one:
   requirements:
     id: \d+
 articles_new:
-  path:     /articles/new
+  path:     /articles/new/
   defaults: { _controller:AppBundle:Article:newArticle }
+articles_update:
+  path:     /articles/update/{id}
+  defaults: { _controller:AppBundle:Article:newArticle }
+  requirements:
+      id: \d+
+articles_remove:
+  path:     /articles/remove/{id}
+  defaults: { _controller:AppBundle:Article:deleteArticle }
+  requirements:
+      id: \d+

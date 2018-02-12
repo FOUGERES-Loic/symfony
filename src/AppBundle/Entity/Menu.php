@@ -2,67 +2,131 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="menu")
+ */
 class Menu
 {
-    /** @var int */
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     protected $id;
-    /** @var string */
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
     protected $title;
-    /** @var Menu */
+    /**
+     * @ORM\ManyToOne(targetEntity="Menu", inversedBy="children")
+     */
     protected $parent;
+    /**
+     * @ORM\OneToMany(targetEntity="Menu", mappedBy="parent")
+     */
+    protected $children;
+
 
     /**
-     * @return int
+     * Constructor
      */
-    public function getId(): int
+    public function __construct()
+    {
+        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
     {
         return $this->id;
     }
 
     /**
-     * @param int $id
+     * Set title
+     *
+     * @param string $title
+     *
      * @return Menu
      */
-    public function setId(int $id): Menu
+    public function setTitle($title)
     {
-        $this->id = $id;
+        $this->title = $title;
+
         return $this;
     }
 
     /**
+     * Get title
+     *
      * @return string
      */
-    public function getTitle(): string
+    public function getTitle()
     {
         return $this->title;
     }
 
     /**
-     * @param string $title
+     * Set parent
+     *
+     * @param \AppBundle\Entity\Menu $parent
+     *
      * @return Menu
      */
-    public function setTitle(string $title): Menu
+    public function setParent(\AppBundle\Entity\Menu $parent = null)
     {
-        $this->title = $title;
+        $this->parent = $parent;
+
         return $this;
     }
 
     /**
-     * @return Menu
+     * Get parent
+     *
+     * @return \AppBundle\Entity\Menu
      */
-    public function getParent(): Menu
+    public function getParent()
     {
         return $this->parent;
     }
 
     /**
-     * @param Menu $parent
+     * Add child
+     *
+     * @param \AppBundle\Entity\Menu $child
+     *
      * @return Menu
      */
-    public function setParent(Menu $parent): Menu
+    public function addChild(\AppBundle\Entity\Menu $child)
     {
-        $this->parent = $parent;
+        $this->children[] = $child;
+
         return $this;
+    }
+
+    /**
+     * Remove child
+     *
+     * @param \AppBundle\Entity\Menu $child
+     */
+    public function removeChild(\AppBundle\Entity\Menu $child)
+    {
+        $this->children->removeElement($child);
+    }
+
+    /**
+     * Get children
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getChildren()
+    {
+        return $this->children;
     }
 }

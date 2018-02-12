@@ -1,9 +1,16 @@
 {% extends '@App/layout.html.twig' %}
 
-{% block title_page %}Test App{% endblock %}
+{% block title_page %}Liste des articles{% endblock %}
 
 {% block body %}
     <div class="container">
+        <div class="row">
+            <div class="col-md-12 bordure">
+                {% for message in app.flashes('notice') %}
+                    <h4><span class="label label-info">{{ message }}</span></h4>
+                {% endfor %}
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12 bordure">
                 <table class="table table-bordered">
@@ -12,6 +19,7 @@
                     <th>Est publié</th>
                     <th>Date de publication</th>
                     <th>Menu</th>
+                    <th>Options</th>
                     </thead>
                     <tbody>
                     {% for article in articles %}
@@ -21,10 +29,35 @@
                             <td>{{ article.published|published }}</td>
                             <td>{{ article.publishedAt|date("m/d/Y") }}</td>
                             <td>{{ article.menu.title }}</td>
+                            <td>
+                                <a href="{{ path('articles_update', {'id': article.id}) }}">
+                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                </a>
+                                <a href="{{ path('articles_remove', {'id': article.id}) }}">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </a>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 bordure">
+                {% if lastArticle %}
+                    <h3>Dernier article consulté:</h3>
+                    <table class="table table-bordered">
+                        <thead>
+                            <th>Image</th>
+                            <th>Titre</th>
+                        </thead>
+                        <tbody>
+                            <td><img src="{{images_public_directory ~ lastArticle.photo }}" alt="{{ images_public_directory ~ lastArticle.photo }}" class="img-thumbnail"></td>
+                            <td>{{ lastArticle.title }}</td>
+                        </tbody>
+                    </table>
+                {% endif %}
             </div>
         </div>
     </div>

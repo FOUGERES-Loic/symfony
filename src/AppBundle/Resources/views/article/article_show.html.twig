@@ -7,7 +7,7 @@
             <div class="media">
                 <div class="media-left">
                     <a href="#">
-                        <img src="/images/{{ article.photo }}" alt="{{ article.photo }}" class="media-object">
+                        <img src="{{images_public_directory ~ article.photo }}" alt="{{ images_public_directory ~ article.photo }}" class="media-object">
                     </a>
                 </div>
                 <div class="media-body">
@@ -16,6 +16,12 @@
                     <p>Publié {{ article.publishedAt|diff }}</p>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            {% for item in article.linkedto %}
+                <a href="{{ path('article_one', {'id': item.id, 'menu': item.menu.title,
+                                'slug':item.title|escape|replace(" ","_")}) }}">{{ item.title }}</a>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

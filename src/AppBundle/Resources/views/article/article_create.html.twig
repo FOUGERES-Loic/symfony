@@ -1,5 +1,11 @@
 {% extends '@App/layout.html.twig' %}
-{% block title_page %}Création{% endblock %}
+{% block title_page %}
+    {% if create %}
+        Création
+    {% else %}
+        Mise à jour
+    {% endif %}
+{% endblock %}
 {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
 
 {% block body %}

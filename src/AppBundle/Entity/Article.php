@@ -2,26 +2,59 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="article")
+ */
 class Article
 {
-    /** @var int */
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     protected $id;
-    /** @var string */
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
     protected $title;
-    /** @var string */
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
     protected $photo;
-    /** @var string */
+    /**
+     * @ORM\Column(type="text")
+     */
     protected $content;
-    /** @var boolean */
+    /**
+     * @ORM\Column(type="boolean")
+     */
     protected $published;
-    /** @var \DateTime */
+    /**
+     * @ORM\Column(type="datetime", name="published_at")
+     */
     protected $publishedAt;
-    /** @var Menu */
+    /**
+     * @ORM\ManyToOne(targetEntity="Menu")
+     */
     protected $menu;
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Article", inversedBy="linkedby")
+     */
+    protected $linkedto;
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Article", mappedBy="linkedto")
+     */
+    protected $linkedby;
+
+
 
     /**
-     * @return int
+     * Get id
+     *
+     * @return integer
      */
     public function getId()
     {
@@ -29,16 +62,22 @@ class Article
     }
 
     /**
-     * @param int $id
+     * Set title
+     *
+     * @param string $title
+     *
      * @return Article
      */
-    public function setId($id)
+    public function setTitle($title)
     {
-        $this->id = $id;
+        $this->title = $title;
+
         return $this;
     }
 
     /**
+     * Get title
+     *
      * @return string
      */
     public function getTitle()
@@ -47,16 +86,22 @@ class Article
     }
 
     /**
-     * @param string $title
+     * Set photo
+     *
+     * @param string $photo
+     *
      * @return Article
      */
-    public function setTitle($title)
+    public function setPhoto($photo)
     {
-        $this->title = $title;
+        $this->photo = $photo;
+
         return $this;
     }
 
     /**
+     * Get photo
+     *
      * @return string
      */
     public function getPhoto()
@@ -65,16 +110,22 @@ class Article
     }
 
     /**
-     * @param string $photo
+     * Set content
+     *
+     * @param string $content
+     *
      * @return Article
      */
-    public function setPhoto($photo)
+    public function setContent($content)
     {
-        $this->photo = $photo;
+        $this->content = $content;
+
         return $this;
     }
 
     /**
+     * Get content
+     *
      * @return string
      */
     public function getContent()
@@ -83,34 +134,46 @@ class Article
     }
 
     /**
-     * @param string $content
-     * @return Article
-     */
-    public function setContent($content)
-    {
-        $this->content = $content;
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isPublished()
-    {
-        return $this->published;
-    }
-
-    /**
-     * @param bool $published
+     * Set published
+     *
+     * @param boolean $published
+     *
      * @return Article
      */
     public function setPublished($published)
     {
         $this->published = $published;
+
         return $this;
     }
 
     /**
+     * Get published
+     *
+     * @return boolean
+     */
+    public function getPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * Set publishedAt
+     *
+     * @param \DateTime $publishedAt
+     *
+     * @return Article
+     */
+    public function setPublishedAt($publishedAt)
+    {
+        $this->publishedAt = $publishedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get publishedAt
+     *
      * @return \DateTime
      */
     public function getPublishedAt()
@@ -119,31 +182,104 @@ class Article
     }
 
     /**
-     * @param \DateTime $publishedAt
+     * Set menu
+     *
+     * @param \AppBundle\Entity\Menu $menu
+     *
      * @return Article
      */
-    public function setPublishedAt($publishedAt)
+    public function setMenu(\AppBundle\Entity\Menu $menu = null)
     {
-        $this->publishedAt = $publishedAt;
+        $this->menu = $menu;
+
         return $this;
     }
 
     /**
-     * @return Menu
+     * Get menu
+     *
+     * @return \AppBundle\Entity\Menu
      */
     public function getMenu()
     {
         return $this->menu;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->linkedto = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->linkedby = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
-     * @param Menu $menu
+     * Add linkedto
+     *
+     * @param \AppBundle\Entity\Article $linkedto
+     *
      * @return Article
      */
-    public function setMenu($menu)
+    public function addLinkedto(\AppBundle\Entity\Article $linkedto)
     {
-        $this->menu = $menu;
+        $this->linkedto[] = $linkedto;
+        $linkedto->addLinkedby($this);
+
         return $this;
     }
 
+    /**
+     * Remove linkedto
+     *
+     * @param \AppBundle\Entity\Article $linkedto
+     */
+    public function removeLinkedto(\AppBundle\Entity\Article $linkedto)
+    {
+        $this->linkedto->removeElement($linkedto);
+    }
+
+    /**
+     * Get linkedto
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLinkedto()
+    {
+        return $this->linkedto;
+    }
+
+    /**
+     * Add linkedby
+     *
+     * @param \AppBundle\Entity\Article $linkedby
+     *
+     * @return Article
+     */
+    public function addLinkedby(\AppBundle\Entity\Article $linkedby)
+    {
+        $this->linkedby[] = $linkedby;
+        $linkedby->addLinkedto($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove linkedby
+     *
+     * @param \AppBundle\Entity\Article $linkedby
+     */
+    public function removeLinkedby(\AppBundle\Entity\Article $linkedby)
+    {
+        $this->linkedby->removeElement($linkedby);
+    }
+
+    /**
+     * Get linkedby
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLinkedby()
+    {
+        return $this->linkedby;
+    }
 }
