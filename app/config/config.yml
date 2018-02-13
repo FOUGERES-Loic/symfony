@@ -32,6 +32,7 @@ framework:
         log: true
     templating:
         engines: ['twig']
+    translator: ~
 
 # Twig Configuration
 twig:

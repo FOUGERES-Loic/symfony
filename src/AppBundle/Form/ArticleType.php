@@ -15,8 +15,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ArticleType extends AbstractType
 {
+    protected $current_id;
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $this->current_id = $options['current_id'];
         $builder
             ->add('title', textType::class, [
                 'required' => true,
@@ -52,7 +54,9 @@ class ArticleType extends AbstractType
             'multiple' => true,
             'required' => false,
             'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('c');
+                return $er->createQueryBuilder('a')
+                    ->where('a.id != :id')
+                    ->setParameter('id', $this->current_id);
             },
             'choice_label' => function ($article) {
                 return $article->getTitle();
@@ -64,6 +68,7 @@ class ArticleType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => Article::class,
         ));
+        $resolver->setRequired('current_id');
     }
 
     public function getBlockPrefix()

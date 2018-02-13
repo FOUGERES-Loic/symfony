@@ -1,0 +1,27 @@
+{% extends '@App/layout.html.twig' %}
+{% block title_page %}Liste des Articles{% endblock %}
+{% block menu %}
+    {% include "@App/menu/menu.html.twig"%}
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% for article in articles %}
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail">
+                        <img src="{{images_public_directory ~ article.photo }}" alt="{{ article.title }}">
+                        <div class="caption">
+                            <h3><a href="{{ path('article_one', {'id': article.id, 'menu': article.menu.title,
+                                    'slug':article.title|escape|replace(" ","_")}) }}">{{ article.title }}</a></h3>
+                            <p>Publié {{ article.publishedAt|diff }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% if loop.index % 3 == 0 %}
+                    </div>
+                    <div class="row">
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

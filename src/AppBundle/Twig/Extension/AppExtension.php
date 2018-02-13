@@ -2,8 +2,19 @@
 
 namespace AppBundle\Twig\Extension;
 
+use AppBundle\Services\MenuService;
+
 class AppExtension extends \Twig_Extension
 {
+    protected $menu;
+    /**
+     * AppExtension constructor.
+     */
+    public function __construct(MenuService $menu)
+    {
+        $this->menu = $menu;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -17,6 +28,13 @@ class AppExtension extends \Twig_Extension
         return array(
             new \Twig_SimpleFilter('diff', array($this, 'diffFilter')),
             new \Twig_SimpleFilter('published', array($this, 'isPublished'), ['is_safe' => ['html']]),
+        );
+    }
+
+    public function getFunctions()
+    {
+        return array(
+            new \Twig_SimpleFunction('menus', array($this->menu, 'getParentMenus')),
         );
     }
 

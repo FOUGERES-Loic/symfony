@@ -5,7 +5,11 @@ $menuService = new MenuService();
 <!DOCTYPE html>
 <html lang = fr>
 <head>
-    <title>{% block title_page %}Test App{% endblock %}</title>
+    <title>
+        {% block title_page %}
+            test title
+        {% endblock %}
+    </title>
     <!-- META -->
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
@@ -18,7 +22,9 @@ $menuService = new MenuService();
 
 </head>
 <body>
-{% block menu %}Test Menu{% endblock %}
+{% block menu %}
+    {% include "@App/menu/menu_admin.html.twig"%}
+{% endblock %}
 <div class='container'>
     {% block body %}Test Body{% endblock %}
 </div>

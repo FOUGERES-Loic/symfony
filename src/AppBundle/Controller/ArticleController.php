@@ -34,6 +34,15 @@ class ArticleController extends Controller
         );
     }
 
+    public function getPublicArticlesAction(SessionInterface $session, ArticleService $service)
+    {
+        $lastArticle = $session->get('article');
+        return $this->render(
+            '@App/article/articles_public.html.twig',
+            array('articles' => $service->getPublishedArticles(), 'lastArticle' => $lastArticle)
+        );
+    }
+
     public function getArticleAction(SessionInterface $session, $id, ArticleService $service)
     {
         $article = $service->getArticle($id);
@@ -58,7 +67,7 @@ class ArticleController extends Controller
         if ($fileName) {
             $article->setPhoto(new File($this->getParameter('images_directory').'/'.$fileName));
         }
-        $form = $this->createForm(ArticleType::class, $article);
+        $form = $this->createForm(ArticleType::class, $article, ['current_id' => $article->getId()]);
 
         $form->handleRequest($request);
 
@@ -87,12 +96,12 @@ class ArticleController extends Controller
                 $this->addFlash('notice', 'Produit mis à jour!');
             }
 
-            return $this->redirectToRoute('articles_all');
+            return $this->redirectToRoute('articles_admin');
         }
 
         return $this->render('@App/article/article_create.html.twig', [
             'form' => $form->createView(),
-            'create' => $create
+            'create' => $create,
         ]);
     }
 
@@ -100,7 +109,7 @@ class ArticleController extends Controller
     {
         $service->deleteArticle($id);
         $this->addFlash('notice', 'Produit supprimé!');
-        return $this->redirectToRoute('articles_all');
+        return $this->redirectToRoute('articles_admin');
     }
 
     /**

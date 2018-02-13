@@ -32,6 +32,12 @@ class ArticleService
         return $this->repo->findAll();
     }
 
+
+    public function getPublishedArticles()
+    {
+        return $this->repo->findBy(['published' => true]);
+    }
+
     /**
      * @param int $id
      * @return Article|object
