@@ -1,13 +1,17 @@
 {% extends '@App/layout.html.twig' %}
 
 {% block title_page %}Administration des articles{% endblock %}
-
+{% block menu %}
+    {% include "@App/menu/menu_admin.html.twig"%}
+{% endblock %}
 {% block body %}
     <div class="container">
         <div class="row">
             <div class="col-md-12 bordure">
-                {% for message in app.flashes('notice') %}
-                    <h4><span class="label label-info">{{ message }}</span></h4>
+                {% for label, messages in app.flashes('notice') %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ label }}">{{ message }}</div>
+                    {% endfor %}
                 {% endfor %}
             </div>
         </div>

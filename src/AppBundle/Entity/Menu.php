@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,6 +11,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Menu
 {
+    /**
+     * Hook timestampable behavior
+     * updates createdAt, updatedAt fields
+     */
+    use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id

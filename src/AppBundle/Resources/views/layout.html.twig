@@ -7,7 +7,6 @@ $menuService = new MenuService();
 <head>
     <title>
         {% block title_page %}
-            test title
         {% endblock %}
     </title>
     <!-- META -->
@@ -23,10 +22,21 @@ $menuService = new MenuService();
 </head>
 <body>
 {% block menu %}
-    {% include "@App/menu/menu_admin.html.twig"%}
+    {% include "@App/menu/menu.html.twig"%}
 {% endblock %}
 <div class='container'>
-    {% block body %}Test Body{% endblock %}
+    {% if app.request.hasPreviousSession %}
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="flash-{{ type }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+    {% block fos_user_content %}
+    {% endblock fos_user_content %}
+    {% block body %}{% endblock %}
 </div>
 </body>
 <footer>

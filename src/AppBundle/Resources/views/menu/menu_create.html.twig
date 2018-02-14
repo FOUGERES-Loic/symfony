@@ -1,10 +1,6 @@
 {% extends '@App/layout.html.twig' %}
 {% block title_page %}
-    {% if create %}
-        Création
-    {% else %}
-        Mise à jour
-    {% endif %}
+    Création d'un menu
 {% endblock %}
 {% block menu %}
     {% include "@App/menu/menu_admin.html.twig"%}
@@ -16,10 +12,10 @@
         <div class="row">
             <div class="col-md-12 bordure">
                 {{ form_start(form) }}
-                    {{ form_widget(form) }}
+                {{ form_widget(form) }}
 
-                    <input type="submit" value="Enregistrer"
-                        class="btn btn-default" />
+                <input type="submit" value="Enregistrer"
+                       class="btn btn-default" />
                 {{ form_end(form) }}
             </div>
         </div>

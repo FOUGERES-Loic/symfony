@@ -3,8 +3,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Article;
+use AppBundle\Entity\Menu;
+use AppBundle\Form\MenuType;
 use AppBundle\Services\ArticleService;
 use AppBundle\Form\ArticleType;
+use AppBundle\Services\MenuService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Knp\Bundle\MarkdownBundle\MarkdownParserInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -88,12 +91,46 @@ class ArticleController extends Controller
                 );
             }
 
+            if ($create) $article->setAuthor($this->getUser());
+
             $article->setPhoto($fileName);
             $service->saveArticle($article);
             if ($create) {
-                $this->addFlash('notice', 'Produit créé!');
+                $this->addFlash('success', 'Produit créé!');
             } else {
-                $this->addFlash('notice', 'Produit mis à jour!');
+                $this->addFlash('success', 'Produit mis à jour!');
+            }
+
+            return $this->redirectToRoute('articles_admin');
+        }
+
+        return $this->render('@App/article/article_create.html.twig', [
+            'form' => $form->createView(),
+            'create' => $create,
+        ]);
+    }
+
+    public function newMenuAction(SessionInterface $session, Request $request, MenuService $service, $id = null)
+    {
+        if (!$id) {
+            $menu = new Menu();
+            $create = true;
+        } else {
+            $menu = $service->getOne($id);
+            $create = false;
+        }
+
+        $form = $this->createForm(MenuType::class, $menu);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $service->save($menu);
+            if ($create) {
+                $this->addFlash('success', 'Menu créé!');
+            } else {
+                $this->addFlash('success', 'Menu mis à jour!');
             }
 
             return $this->redirectToRoute('articles_admin');
@@ -108,7 +145,14 @@ class ArticleController extends Controller
     public function deleteArticleAction(SessionInterface $session, $id, ArticleService $service)
     {
         $service->deleteArticle($id);
-        $this->addFlash('notice', 'Produit supprimé!');
+        $this->addFlash('success', 'Produit supprimé!');
+        return $this->redirectToRoute('articles_admin');
+    }
+
+    public function deleteMenuAction(SessionInterface $session, $id, MenuService $service)
+    {
+        $service->delete($id);
+        $this->addFlash('success', 'Menu supprimé!');
         return $this->redirectToRoute('articles_admin');
     }
 

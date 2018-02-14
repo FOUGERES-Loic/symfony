@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,6 +11,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Article
 {
+    /**
+     * Hook timestampable behavior
+     * updates createdAt, updatedAt fields
+     */
+    use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -40,6 +47,10 @@ class Article
      * @ORM\ManyToOne(targetEntity="Menu")
      */
     protected $menu;
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     */
+    protected $author;
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Article", inversedBy="linkedby")
      */
@@ -281,5 +292,29 @@ class Article
     public function getLinkedby()
     {
         return $this->linkedby;
+    }
+
+    /**
+     * Set author
+     *
+     * @param \AppBundle\Entity\User $author
+     *
+     * @return Article
+     */
+    public function setAuthor(\AppBundle\Entity\User $author = null)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getAuthor()
+    {
+        return $this->author;
     }
 }

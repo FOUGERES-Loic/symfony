@@ -2,7 +2,7 @@ default:
   path:     /
   defaults: { _controller:AppBundle:Article:getPublicArticles }
 articles_admin:
-  path:     /admin/articles/
+  path:     /editor/articles/
   defaults: { _controller:AppBundle:Article:getAllArticles }
 articles_public:
   path:     /articles/
@@ -13,15 +13,15 @@ article_one:
   requirements:
     id: \d+
 articles_new:
-  path:     /admin/articles/new/
+  path:     /editor/articles/new/
   defaults: { _controller:AppBundle:Article:newArticle }
 articles_update:
-  path:     /admin/articles/update/{id}
+  path:     /editor/articles/update/{id}
   defaults: { _controller:AppBundle:Article:newArticle }
   requirements:
       id: \d+
 articles_remove:
-  path:     /admin/articles/remove/{id}
+  path:     /editor/articles/remove/{id}
   defaults: { _controller:AppBundle:Article:deleteArticle }
   requirements:
       id: \d+

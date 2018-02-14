@@ -1,6 +1,9 @@
 {% extends '@App/layout.html.twig' %}
 
 {% block title_page %}{{ article.title }}{% endblock %}
+{% block menu %}
+    {% include "@App/menu/menu_admin.html.twig"%}
+{% endblock %}
 {% block body %}
     <div class="container">
         <div class="row">
@@ -14,6 +17,7 @@
                     <h3 class="media-heading">{{ article.title }}</h3>
                     {{ article.content|markdown }}<br><br>
                     <p>Publié {{ article.publishedAt|diff }}</p>
+                    <p>Publié par : {{ article.author.username }}</p>
                 </div>
             </div>
         </div>
